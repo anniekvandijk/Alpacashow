@@ -1,0 +1,57 @@
+@page
+@model Alpacashow.Pages.Showevents.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>ShowEvent</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ShowEvent.Id" />
+            <div class="form-group">
+                <label asp-for="ShowEvent.Name" class="control-label"></label>
+                <input asp-for="ShowEvent.Name" class="form-control" />
+                <span asp-validation-for="ShowEvent.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShowEvent.Date" class="control-label"></label>
+                <input asp-for="ShowEvent.Date" class="form-control" />
+                <span asp-validation-for="ShowEvent.Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShowEvent.Judge" class="control-label"></label>
+                <input asp-for="ShowEvent.Judge" class="form-control" />
+                <span asp-validation-for="ShowEvent.Judge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ShowEvent.Location" class="control-label"></label>
+                <input asp-for="ShowEvent.Location" class="form-control" />
+                <span asp-validation-for="ShowEvent.Location" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input asp-for="ShowEvent.Archived" /> @Html.DisplayNameFor(model => model.ShowEvent.Archived)
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
