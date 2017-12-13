@@ -24,6 +24,6 @@ namespace Alpacashow.Models
         public Sex Sex { get; set; }
         public Color Color { get; set; }
         public virtual Participant Participant { get; set; }
-        public virtual ShowEvent ShowEvent { get; set; }
+
     }
 }

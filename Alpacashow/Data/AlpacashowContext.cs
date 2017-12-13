@@ -21,5 +21,24 @@ namespace Alpacashow.Data
         public DbSet<Color> Colors { get; set; }
         public DbSet<AgeClass> AgeClasses { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Animal>()
+                .HasOne(pt => pt.Participant)
+                .WithMany(p => p.Animals);
+
+            modelBuilder.Entity<ShowEventParticipant>()
+                .HasKey(t => new { t.ShowEventId, t.ParticipantId });
+
+            modelBuilder.Entity<ShowEventParticipant>()
+                .HasOne(pt => pt.Participant)
+                .WithMany(p => p.ShowEventParticipants)
+                .HasForeignKey(pt => pt.ParticipantId);
+
+            modelBuilder.Entity<ShowEventParticipant>()
+                .HasOne(pt => pt.ShowEvent)
+                .WithMany(t => t.ShowEventParticipants)
+                .HasForeignKey(pt => pt.ShowEventId);
+        }
     }
 }

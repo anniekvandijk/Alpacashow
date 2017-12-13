@@ -17,7 +17,7 @@ namespace Alpacashow.Models
         public string Name { get; set; }
         [MaxLength(50)]
         public string FarmName { get; set; }
-        public virtual ShowEvent ShowEvent { get; set; }
+        public virtual ICollection<ShowEventParticipant> ShowEventParticipants { get; set;  }
         public virtual ICollection<Animal> Animals { get; set; }
     }
 }

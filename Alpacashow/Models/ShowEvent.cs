@@ -24,9 +24,7 @@ namespace Alpacashow.Models
         [MaxLength(100)]
         public string Location { get; set; }
         public bool Archived { get; set; }
-        
-        public virtual ICollection<Participant> Participants { get; set; }
-        public virtual ICollection<Animal> Animals { get; set; }
+        public virtual ICollection<ShowEventParticipant> ShowEventParticipants { get; set; }
 
     }
 }

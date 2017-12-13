@@ -10,22 +10,48 @@ namespace Alpacashow.Data
     {
         public static void Initialize(AlpacashowContext context)
         {
-            // Look for any students.
             if (context.ShowEvents.Any())
-            {
-                return; // DB has been seeded
-            }
+                {
+                    return; // DB has been seeded
+                }
 
-            var showEvents = new ShowEvent[]
+            var showEvents = new List<ShowEvent>()
             {
                 new ShowEvent
                 {
-                    Name = "ShowEvent 1",
+                    Name = "ShowEvent 2",
                     Judge = "Judge x",
                     Date = new DateTime(2017, 5, 24),
                     Location = "Assen",
-                    Archived = false
+                    Archived = false,
+                    ShowEventParticipants = new List<ShowEventParticipant>()
+                    {
+                        new ShowEventParticipant()
+                        {
+                            Participant = 
+
+                        new Participant
+                        {
+                            Name = "Some participant",
+                            FarmName = "Some farm",
+                            Animals = new List<Animal>()
+                            {
+                                new Animal
+                                {
+                                    Name = "alpaca 1",
+                                    Sex = context.Sexes.Local.Single(p => p.Name == "female"),
+                                    Breed = context.Breeds.Local.Single(p => p.Name == "huayaca"),
+                                    Dam = "some mother",
+                                    Sire = "some father",
+                                    Dob = new DateTime(2017, 06, 10),
+                                    Chip = "12345",
+                                    Color = context.Colors.Local.Single(p => p.Name == "brown"),
+                                }
+                            }
+                        }
+                    }
                 }
+                    }
 
             };
             foreach (var showEvent in showEvents)
