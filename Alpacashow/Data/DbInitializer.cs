@@ -24,9 +24,12 @@ namespace Alpacashow.Data
             };
             foreach (var breed in breeds)
             {
-                context.Breeds.Add(breed);
+                var db = context.Breeds.SingleOrDefault(s => s.Name == breed.Name);
+                if (db == null)
+                {
+                    context.Breeds.Add(breed);
+                }
             }
-            context.SaveChanges();
 
             var sexes = new[]
             {
@@ -36,9 +39,12 @@ namespace Alpacashow.Data
             };
             foreach (var sex in sexes)
             {
-                context.Sexes.Add(sex);
+                var db = context.Sexes.SingleOrDefault(s => s.Name == sex.Name);
+                if (db == null)
+                {
+                    context.Sexes.Add(sex);
+                }
             }
-            context.SaveChanges();
 
             var colors = new[]
             {
@@ -53,9 +59,12 @@ namespace Alpacashow.Data
             };
             foreach (var color in colors)
             {
-                context.Colors.Add(color);
+                var db = context.Colors.SingleOrDefault(s => s.Name == color.Name);
+                if (db == null)
+                {
+                    context.Colors.Add(color);
+                }
             }
-            context.SaveChanges();
 
             var ageClasses = new[]
             {
@@ -67,9 +76,12 @@ namespace Alpacashow.Data
             };
             foreach (var ageClass in ageClasses)
             {
-                context.AgeClasses.Add(ageClass);
+                var db = context.AgeClasses.SingleOrDefault(s => s.Name == ageClass.Name);
+                if (db == null)
+                {
+                    context.AgeClasses.Add(ageClass);
+                }
             }
-            context.SaveChanges();
 
             var showTypes = new[]
             {
@@ -80,54 +92,92 @@ namespace Alpacashow.Data
             };
             foreach (var showType in showTypes)
             {
-                context.ShowTypes.Add(showType);
+                var db = context.ShowTypes.SingleOrDefault(s => s.Name == showType.Name);
+                if (db == null)
+                {
+                    context.ShowTypes.Add(showType);
+                }
+            }
+
+            // Testdata
+
+            var owners = new[]
+            {
+                new Owner {Name = "The owner", FarmName = "farmname"}
+            };
+            foreach (var owner in owners)
+            {
+                var db = context.Owners.SingleOrDefault(s => s.Name == owner.Name);
+                if (db == null)
+                {
+                    context.Owners.Add(owner);
+                }
+            }
+
+            var animals = new[]
+            {
+                new Animal
+                {
+                    Name = "alpaca 1",
+                    Sex = context.Sexes.Local.Single(p => p.Name == "Female"),
+                    Breed = context.Breeds.Local.Single(p => p.Name == "Huacaya"),
+                    Dam = "some mother",
+                    Sire = "some father",
+                    Dob = new DateTime(2017, 06, 10),
+                    Chip = "12345",
+                    Color = context.Colors.Local.Single(p => p.Name == "Brown"),
+                    Owner = context.Owners.Local.Single(p => p.Name == "The owner"),
+                }
+            };
+            foreach (var animal in animals)
+            {
+                var db = context.Animals.SingleOrDefault(s => s.Name == animal.Name );
+                if (db == null)
+                {
+                    context.Animals.Add(animal);
+                }
+            }
+
+            var showEvents = new[]
+            {
+                new ShowEvent
+                {
+                    Name = "ShowEvent 2",
+                    Judge = "Judge x",
+                    Date = new DateTime(2017, 5, 24),
+                    Location = "Assen",
+                    Archived = false,
+                    ShowType = context.ShowTypes.Local.Single(p => p.Name == "Haltershow")
+                }
+            };
+            foreach (var showEvent in showEvents)
+            {
+                var db = context.ShowEvents.SingleOrDefault(s => 
+                s.Name == showEvent.Name && s.ShowType == showEvent.ShowType);
+                if (db == null)
+                {
+                    context.ShowEvents.Add(showEvent);
+                }
+            }
+
+            var showEventAnimals = new[]
+            {
+                new ShowEventAnimal
+                {
+                    Animal = context.Animals.Local.Single(p => p.Name == "alpaca 1"),
+                    ShowEvent = context.ShowEvents.Local.Single(p => p.Name == "ShowEvent 2")
+                }
+            };
+            foreach (var showEventAnimal in showEventAnimals)
+            {
+                var db = context.ShowEventAnimals.SingleOrDefault(s => 
+                s.ShowEventId == showEventAnimal.ShowEventId && s.AnimalId == showEventAnimal.AnimalId);
+                if (db == null)
+                {
+                    context.ShowEventAnimals.Add(showEventAnimal);
+                }
             }
             context.SaveChanges();
-
-            //var showEvents = new List<ShowEvent>()
-            //{
-            //    new ShowEvent
-            //    {
-            //        Name = "ShowEvent 2",
-            //        Judge = "Judge x",
-            //        Date = new DateTime(2017, 5, 24),
-            //        Location = "Assen",
-            //        Archived = false,
-            //        ShowEventParticipants = new List<ShowEventParticipant>()
-            //        {
-            //            new ShowEventParticipant()
-            //            {
-            //                Owner =
-
-            //                    new Owner
-            //                    {
-            //                        Name = "Some participant",
-            //                        FarmName = "Some farm",
-            //                        Animals = new List<Animal>()
-            //                        {
-            //                            new Animal
-            //                            {
-            //                                Name = "alpaca 1",
-            //                                Sex = context.Sexes.Local.Single(p => p.Name == "female"),
-            //                                Breed = context.Breeds.Local.Single(p => p.Name == "huayaca"),
-            //                                Dam = "some mother",
-            //                                Sire = "some father",
-            //                                Dob = new DateTime(2017, 06, 10),
-            //                                Chip = "12345",
-            //                                Color = context.Colors.Local.Single(p => p.Name == "brown"),
-            //                            }
-            //                        }
-            //                    }
-            //            }
-            //        }
-            //    }
-
-            //};
-            //foreach (var showEvent in showEvents)
-            //{
-            //    context.ShowEvents.Add(showEvent);
-            //}
-            //context.SaveChanges();
 
         }
     }

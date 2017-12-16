@@ -24,7 +24,7 @@ namespace Alpacashow.Models
         public Sex Sex { get; set; }
         public Color Color { get; set; }
         public virtual Owner Owner { get; set; }
-        public virtual ICollection<ShowEvent> ShowEventAnimal { get; set; }
+        public virtual ICollection<ShowEventAnimal> ShowEventAnimal { get; set; }
 
     }
 }

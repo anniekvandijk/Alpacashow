@@ -25,7 +25,7 @@ namespace Alpacashow.Models
         public string Location { get; set; }
         public bool Archived { get; set; }
         public ShowType ShowType { get; set; }
-        public virtual ICollection<Animal> ShowEventAnimal { get; set; }
+        public virtual ICollection<ShowEventAnimal> ShowEventAnimal { get; set; }
 
     }
 }
