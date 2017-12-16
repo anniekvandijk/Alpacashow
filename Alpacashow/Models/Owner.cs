@@ -7,15 +7,16 @@ using System.Threading.Tasks;
 
 namespace Alpacashow.Models
 {
-    public class Color
+    public class Owner
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ColorId { get; set; }
+        public int OwnerId { get; set; }
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
-        [Required]
-        public int SortOrder { get; set; }
+        [MaxLength(50)]
+        public string FarmName { get; set; }
+        public virtual ICollection<Animal> Animals { get; set; }
     }
 }

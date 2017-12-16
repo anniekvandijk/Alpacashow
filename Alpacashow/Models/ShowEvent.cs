@@ -12,7 +12,7 @@ namespace Alpacashow.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int ShowEventId { get; set; }
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
@@ -24,7 +24,8 @@ namespace Alpacashow.Models
         [MaxLength(100)]
         public string Location { get; set; }
         public bool Archived { get; set; }
-        public virtual ICollection<ShowEventParticipant> ShowEventParticipants { get; set; }
+        public ShowType ShowType { get; set; }
+        public virtual ICollection<Animal> ShowEventAnimal { get; set; }
 
     }
 }

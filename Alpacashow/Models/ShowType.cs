@@ -7,17 +7,13 @@ using System.Threading.Tasks;
 
 namespace Alpacashow.Models
 {
-    public class Participant
+    public class ShowType
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int ShowTypeId { get; set; }
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
-        [MaxLength(50)]
-        public string FarmName { get; set; }
-        public virtual ICollection<ShowEventParticipant> ShowEventParticipants { get; set;  }
-        public virtual ICollection<Animal> Animals { get; set; }
     }
 }

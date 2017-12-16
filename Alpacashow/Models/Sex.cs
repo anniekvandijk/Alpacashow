@@ -11,7 +11,7 @@ namespace Alpacashow.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int SexId { get; set; }
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }

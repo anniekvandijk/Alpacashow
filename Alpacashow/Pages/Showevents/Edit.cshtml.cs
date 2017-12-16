@@ -30,7 +30,7 @@ namespace Alpacashow.Pages.Showevents
                 return NotFound();
             }
 
-            ShowEvent = await _context.ShowEvents.SingleOrDefaultAsync(m => m.Id == id);
+            ShowEvent = await _context.ShowEvents.SingleOrDefaultAsync(m => m.ShowEventId == id);
 
             if (ShowEvent == null)
             {
@@ -54,7 +54,7 @@ namespace Alpacashow.Pages.Showevents
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ShowEventExists(ShowEvent.Id))
+                if (!ShowEventExists(ShowEvent.ShowEventId))
                 {
                     return NotFound();
                 }
@@ -69,7 +69,7 @@ namespace Alpacashow.Pages.Showevents
 
         private bool ShowEventExists(int id)
         {
-            return _context.ShowEvents.Any(e => e.Id == id);
+            return _context.ShowEvents.Any(e => e.ShowEventId == id);
         }
     }
 }

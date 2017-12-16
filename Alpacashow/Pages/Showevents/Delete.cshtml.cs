@@ -29,7 +29,7 @@ namespace Alpacashow.Pages.Showevents
                 return NotFound();
             }
 
-            ShowEvent = await _context.ShowEvents.SingleOrDefaultAsync(m => m.Id == id);
+            ShowEvent = await _context.ShowEvents.SingleOrDefaultAsync(m => m.ShowEventId == id);
 
             if (ShowEvent == null)
             {
