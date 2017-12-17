@@ -19,9 +19,15 @@ namespace Alpacashow.Data.Models
         public string Sire { get; set; }
         public string Dam { get; set; }
         public DateTime Dob { get; set; }
-        public Breed Breed { get; set; }
-        public Sex Sex { get; set; }
-        public Color Color { get; set; }
+        public int BreedId { get; set; }
+        public int SexId { get; set; }
+        public int ColorId { get; set; }
+        public int OwnerId { get; set; }
+
+        // Navigation
+        public virtual Breed Breed { get; set; }
+        public virtual Sex Sex { get; set; }
+        public virtual Color Color { get; set; }
         public virtual Owner Owner { get; set; }
         public virtual ICollection<ShowEventAnimal> ShowEventAnimal { get; set; }
 
