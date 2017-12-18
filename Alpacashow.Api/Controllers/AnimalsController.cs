@@ -53,12 +53,12 @@ namespace Alpacashow.Api.Controllers
         }
 
         /// <summary>
-        /// Post a animal
+        /// Add a animal
         /// </summary>
         [SwaggerResponse(201, type: typeof(Animal), description: "Created")]
         [SwaggerResponse(400, null, description: "Bad request")]
         [HttpPost]
-        public IActionResult Create([FromBody] Animal animal)
+        public IActionResult AddAnimal([FromBody] Animal animal)
         {
             if (animal == null)
             {
@@ -84,7 +84,7 @@ namespace Alpacashow.Api.Controllers
         [SwaggerResponse(404, null, description: "Not found")]
         [SwaggerResponse(400, null, description: "Bad request")]
         [HttpPut("{animalId}", Name = "PutAnimal")]
-        public IActionResult Put(int animalId, [FromBody] Animal animal)
+        public IActionResult PutAnimal(int animalId, [FromBody] Animal animal)
         {
             if (animal == null || animal.AnimalId != animalId)
             {
@@ -124,12 +124,11 @@ namespace Alpacashow.Api.Controllers
         /// <summary>
         /// Delete a animal
         /// </summary>
-        [SwaggerOperation("DeleteAnimal")]
         [SwaggerResponse(204, null, description: "No content")]
         [SwaggerResponse(404, null, description: "Not found")]
         [SwaggerResponse(400, null, description: "Bad request")]
         [HttpDelete("{animalId}")]
-        public IActionResult Delete(int animalId)
+        public IActionResult DeleteAnimal(int animalId)
         {
             var animal = _context.Animals.FirstOrDefault(t => t.AnimalId == animalId);
             if (animal == null)

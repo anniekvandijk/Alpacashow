@@ -52,22 +52,11 @@ namespace Alpacashow.Api.Controllers
             return new ObjectResult(showEvent);
         }
 
-        /// <summary>
-        /// Get all showevent animals
-        /// </summary>
-        [SwaggerResponse(200, type: typeof(Animal), description: "Ok")]
-        [SwaggerResponse(404, null, description: "Not found")]
-        [HttpGet("{showEventId}/animals", Name = "GetShowEventAnimals")]
-        public IEnumerable<Animal> GetShowEventAnimals(int showEventId)
-        {
-            return  _context.Animals
-                .Include(x => x.ShowEventAnimal)
-                .Where(x => x.ShowEventAnimal.Any(y => y.ShowEventId == showEventId))
-                .ToList();
-        }
+
+
 
         /// <summary>
-        /// Post a showevent
+        /// Add a showevent
         /// </summary>
         [SwaggerResponse(201, type: typeof(ShowEvent), description: "Created")]
         [SwaggerResponse(400, null, description: "Bad request")]
