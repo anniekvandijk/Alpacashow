@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Alpacashow.Data.Models.Enums;
+using Newtonsoft.Json;
 
 namespace Alpacashow.Data.Models
 {
@@ -6,9 +8,7 @@ namespace Alpacashow.Data.Models
     {
         public int ShowEventId { get; set; }
         public int AnimalId { get; set; }
-        [JsonIgnore]
         public virtual ShowEvent ShowEvent { get; set; }
-        [JsonIgnore]
         public virtual Animal Animal { get; set; }
     }
 }

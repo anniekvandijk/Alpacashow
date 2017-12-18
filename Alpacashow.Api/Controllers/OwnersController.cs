@@ -61,7 +61,7 @@ namespace Alpacashow.Api.Controllers
         public IEnumerable<Animal> GetOwnerAnimals(int ownerId)
         {
             return _context.Animals
-                .Where(x => x.OwnerId == ownerId)
+                .Where(x => x.Owner.OwnerId == ownerId)
                 .ToList();
         }
 

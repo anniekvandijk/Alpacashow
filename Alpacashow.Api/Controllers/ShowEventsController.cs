@@ -107,7 +107,7 @@ namespace Alpacashow.Api.Controllers
             showEventToUpdate.Date = showEvent.Date;
             showEventToUpdate.Judge = showEvent.Judge;
             showEventToUpdate.Archived = showEvent.Archived;
-            showEventToUpdate.ShowTypeId = showEvent.ShowTypeId;
+            showEventToUpdate.ShowType.ShowTypeId = showEvent.ShowType.ShowTypeId;
 
             try
             {

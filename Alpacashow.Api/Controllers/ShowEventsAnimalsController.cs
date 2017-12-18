@@ -101,7 +101,6 @@ namespace Alpacashow.Api.Controllers
         public IEnumerable<Animal> GetShowEventAnimals(int showEventId)
         {
             return _context.Animals
-                .Include(x => x.Owner)
                 .Where(x => x.ShowEventAnimal.Any(y => y.ShowEventId == showEventId))
                 .ToList();
         }

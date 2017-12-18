@@ -25,16 +25,13 @@ namespace Alpacashow.Data.Models
         [Required]
         [MaxLength(100)]
         public string Judge { get; set; }
-        [Required(ErrorMessage = "The field 'Location' is required")]
-        [MaxLength(100, ErrorMessage = "The field 'Location' can be max 100 characters")]
+        [Required]
+        [MaxLength(100)]
         public string Location { get; set; }
         [DefaultValue(false)]
         public bool Archived { get; set; }
-        [Required(ErrorMessage = "The field 'ShowTypeId' is required and must be a existing id")]
-        public int ShowTypeId { get; set; }
-        [JsonIgnore]
+        [Required]
         public virtual ShowType ShowType { get; set; }
-        [JsonIgnore]
         public virtual ICollection<ShowEventAnimal> ShowEventAnimal { get; set; }
 
     }

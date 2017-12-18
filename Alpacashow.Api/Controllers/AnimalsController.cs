@@ -99,10 +99,10 @@ namespace Alpacashow.Api.Controllers
             }
 
             animalToUpdate.Name = animal.Name;
-            animalToUpdate.BreedId = animal.BreedId;
-            animalToUpdate.SexId = animal.SexId;
-            animalToUpdate.ColorId = animal.ColorId;
-            animalToUpdate.OwnerId = animal.OwnerId;
+            animalToUpdate.Breed.BreedId = animal.Breed.BreedId;
+            animalToUpdate.Sex.SexId = animal.Sex.SexId;
+            animalToUpdate.Color.ColorId = animal.Color.ColorId;
+            animalToUpdate.Owner.OwnerId = animal.Owner.OwnerId;
             animalToUpdate.Chip = animal.Chip;
             animalToUpdate.Dam = animal.Dam;
             animalToUpdate.Sire = animal.Sire;

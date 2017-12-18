@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Alpacashow.Data.Models.Enums;
@@ -10,6 +11,7 @@ namespace Alpacashow.Data.Models
     public class Animal
     {
         [Key]
+        [ReadOnly(true)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AnimalId { get; set; }
         [Required]
@@ -17,22 +19,22 @@ namespace Alpacashow.Data.Models
         public string Name { get; set; }
         [Required]
         public string Chip { get; set; }
+        [Required]
+        [MaxLength(100)]
         public string Sire { get; set; }
+        [Required]
+        [MaxLength(100)]
         public string Dam { get; set; }
+        [Required]
         public DateTime Dob { get; set; }
-        public int BreedId { get; set; }
-        public int SexId { get; set; }
-        public int ColorId { get; set; }
-        public int OwnerId { get; set; }
-        [JsonIgnore]
+        [Required]
         public virtual Breed Breed { get; set; }
-        [JsonIgnore]
+        [Required]
         public virtual Sex Sex { get; set; }
-        [JsonIgnore]
+        [Required]
         public virtual Color Color { get; set; }
-        [JsonIgnore]
+        [Required]
         public virtual Owner Owner { get; set; }
-        [JsonIgnore]
         public virtual ICollection<ShowEventAnimal> ShowEventAnimal { get; set; }
 
     }
