@@ -18,8 +18,8 @@ namespace Alpacashow.Data.Context
 
             var breeds = new[]
             {
-                new Breed { Name = "Suri", SortOrder = 1 },
-                new Breed { Name = "Huacaya", SortOrder = 2 }
+                new Breed { Name = "Suri" },
+                new Breed { Name = "Huacaya" }
             };
             foreach (var breed in breeds)
             {
@@ -32,9 +32,9 @@ namespace Alpacashow.Data.Context
 
             var sexes = new[]
             {
-                new Sex { Name = "Female", SortOrder = 1 },
-                new Sex { Name = "Male", SortOrder = 2 },
-                new Sex { Name = "Gelding", SortOrder = 3 }
+                new Sex { Name = "Female" },
+                new Sex { Name = "Male" },
+                new Sex { Name = "Gelding" }
             };
             foreach (var sex in sexes)
             {
@@ -47,14 +47,14 @@ namespace Alpacashow.Data.Context
 
             var colors = new[]
             {
-                new Color { Name = "Fancy", SortOrder = 1 },
-                new Color { Name = "Grey", SortOrder = 2 },
-                new Color { Name = "Black", SortOrder = 3 },
-                new Color { Name = "Brown", SortOrder = 4 },
-                new Color { Name = "Fawn", SortOrder = 5 },
-                new Color { Name = "Beige", SortOrder = 6 },
-                new Color { Name = "Lights", SortOrder = 7 },
-                new Color { Name = "White", SortOrder = 8 }
+                new Color { Name = "Fancy" },
+                new Color { Name = "Grey" },
+                new Color { Name = "Black" },
+                new Color { Name = "Brown" },
+                new Color { Name = "Fawn" },
+                new Color { Name = "Beige" },
+                new Color { Name = "Lights" },
+                new Color { Name = "White" }
             };
             foreach (var color in colors)
             {
@@ -67,11 +67,11 @@ namespace Alpacashow.Data.Context
 
             var ageClasses = new[]
             {
-                new AgeClass { Name = "Junior", SortOrder = 1 },
-                new AgeClass { Name = "Intermediate", SortOrder = 2 },
-                new AgeClass { Name = "Adult", SortOrder = 3 },
-                new AgeClass { Name = "Mature", SortOrder = 4 },
-                new AgeClass { Name = "Senior", SortOrder = 5 }
+                new AgeClass { Name = "Junior" },
+                new AgeClass { Name = "Intermediate" },
+                new AgeClass { Name = "Adult" },
+                new AgeClass { Name = "Mature" },
+                new AgeClass { Name = "Senior" }
             };
             foreach (var ageClass in ageClasses)
             {

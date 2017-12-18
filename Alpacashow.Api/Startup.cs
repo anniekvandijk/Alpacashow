@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.PlatformAbstractions;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace Alpacashow.Api
@@ -31,9 +32,14 @@ namespace Alpacashow.Api
             services.AddDbContext<AlpacashowContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddMvc();
+            services.AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                        
+                });
 
-            services.AddSwaggerGen(c =>
+                    services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info
                 {

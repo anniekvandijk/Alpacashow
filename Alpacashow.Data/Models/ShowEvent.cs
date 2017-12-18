@@ -12,6 +12,7 @@ namespace Alpacashow.Data.Models
     public class ShowEvent
     {
         [Key]
+        [ReadOnly(true)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ShowEventId { get; set; }
         [Required]
@@ -31,8 +32,6 @@ namespace Alpacashow.Data.Models
         public bool Archived { get; set; }
         [Required(ErrorMessage = "The field 'ShowTypeId' is required and must be a existing id")]
         public int ShowTypeId { get; set; }
-       
-        // Navigation
         [JsonIgnore]
         public virtual ShowType ShowType { get; set; }
         [JsonIgnore]

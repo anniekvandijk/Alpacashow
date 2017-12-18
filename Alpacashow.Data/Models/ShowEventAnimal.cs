@@ -6,8 +6,6 @@ namespace Alpacashow.Data.Models
     {
         public int ShowEventId { get; set; }
         public int AnimalId { get; set; }
-        
-        // Navigation
         [JsonIgnore]
         public virtual ShowEvent ShowEvent { get; set; }
         [JsonIgnore]

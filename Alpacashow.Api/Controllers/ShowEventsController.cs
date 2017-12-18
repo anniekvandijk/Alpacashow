@@ -28,10 +28,9 @@ namespace Alpacashow.Api.Controllers
         [SwaggerResponse(200, type: typeof(ShowEvent), description: "Ok")]
         [SwaggerResponse(0, null, description: "Unexpected error")]
         [HttpGet]
-        public IEnumerable<ShowEvent> Get()
+        public IEnumerable<ShowEvent> GetShowEvents()
         {
             return _context.ShowEvents
-                .Include(s => s.ShowType)
                 .ToList();
         }
 
@@ -40,17 +39,31 @@ namespace Alpacashow.Api.Controllers
         /// </summary>
         [SwaggerResponse(200, type: typeof(ShowEvent), description: "Ok")]
         [SwaggerResponse(404, null, description: "Not found")]
-        [HttpGet("{id}", Name = "GetShowEvent")]
-        public IActionResult Get(int id)
+        [HttpGet("{showEventId}", Name = "GetShowEvent")]
+        public IActionResult GetShowEvent(int showEventId)
         {
             var showEvent = _context.ShowEvents
-                .Include(s => s.ShowType)
-                .FirstOrDefault(t => t.ShowEventId == id);
+                .FirstOrDefault(t => t.ShowEventId == showEventId);
+
             if (showEvent == null)
             {
                 return NotFound();
             }
             return new ObjectResult(showEvent);
+        }
+
+        /// <summary>
+        /// Get all showevent animals
+        /// </summary>
+        [SwaggerResponse(200, type: typeof(Animal), description: "Ok")]
+        [SwaggerResponse(404, null, description: "Not found")]
+        [HttpGet("{showEventId}/animals", Name = "GetShowEventAnimals")]
+        public IEnumerable<Animal> GetShowEventAnimals(int showEventId)
+        {
+            return  _context.Animals
+                .Include(x => x.ShowEventAnimal)
+                .Where(x => x.ShowEventAnimal.Any(y => y.ShowEventId == showEventId))
+                .ToList();
         }
 
         /// <summary>
@@ -84,17 +97,17 @@ namespace Alpacashow.Api.Controllers
         [SwaggerResponse(200, type: typeof(ShowEvent), description: "Updated")]
         [SwaggerResponse(404, null, description: "Not found")]
         [SwaggerResponse(400, null, description: "Bad request")]
-        [HttpPut("{id}", Name = "PutShowEvent")]
-        public IActionResult Put(int id, [FromBody] ShowEvent showEvent)
+        [HttpPut("{showEventId}", Name = "PutShowEvent")]
+        public IActionResult Put(int showEventId, [FromBody] ShowEvent showEvent)
         {
-            if (showEvent == null || showEvent.ShowEventId != id)
+            if (showEvent == null || showEvent.ShowEventId != showEventId)
             {
                 return BadRequest();
             }
 
             var showEventToUpdate = _context.ShowEvents
                 .Include(s => s.ShowType.ShowTypeId)
-                .FirstOrDefault(t => t.ShowEventId == id);
+                .FirstOrDefault(t => t.ShowEventId == showEventId);
             if (showEventToUpdate == null)
             {
                 return NotFound();
@@ -127,10 +140,10 @@ namespace Alpacashow.Api.Controllers
         [SwaggerResponse(204, null, description: "No content")]
         [SwaggerResponse(404, null, description: "Not found")]
         [SwaggerResponse(400, null, description: "Bad request")]
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete("{showEventId}")]
+        public IActionResult Delete(int showEventId)
         {
-            var showEvent = _context.ShowEvents.FirstOrDefault(t => t.ShowEventId == id);
+            var showEvent = _context.ShowEvents.FirstOrDefault(t => t.ShowEventId == showEventId);
             if (showEvent == null)
             {
                 return NotFound();

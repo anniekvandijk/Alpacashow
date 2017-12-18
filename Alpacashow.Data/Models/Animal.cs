@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Alpacashow.Data.Models.Enums;
+using Newtonsoft.Json;
 
 namespace Alpacashow.Data.Models
 {
@@ -23,12 +24,15 @@ namespace Alpacashow.Data.Models
         public int SexId { get; set; }
         public int ColorId { get; set; }
         public int OwnerId { get; set; }
-
-        // Navigation
+        [JsonIgnore]
         public virtual Breed Breed { get; set; }
+        [JsonIgnore]
         public virtual Sex Sex { get; set; }
+        [JsonIgnore]
         public virtual Color Color { get; set; }
+        [JsonIgnore]
         public virtual Owner Owner { get; set; }
+        [JsonIgnore]
         public virtual ICollection<ShowEventAnimal> ShowEventAnimal { get; set; }
 
     }
