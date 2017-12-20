@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.EntityFrameworkCore.Metadata;
+using System;
+using System.Collections.Generic;
 
 namespace Alpacashow.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,8 +15,7 @@ namespace Alpacashow.Data.Migrations
                 {
                     AgeClassId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    SortOrder = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,8 +28,7 @@ namespace Alpacashow.Data.Migrations
                 {
                     BreedId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    SortOrder = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,8 +41,7 @@ namespace Alpacashow.Data.Migrations
                 {
                     ColorId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    SortOrder = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,7 +49,7 @@ namespace Alpacashow.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Participants",
+                name: "Owners",
                 columns: table => new
                 {
                     OwnerId = table.Column<int>(nullable: false)
@@ -61,7 +59,7 @@ namespace Alpacashow.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Participants", x => x.OwnerId);
+                    table.PrimaryKey("PK_Owners", x => x.OwnerId);
                 });
 
             migrationBuilder.CreateTable(
@@ -70,8 +68,7 @@ namespace Alpacashow.Data.Migrations
                 {
                     SexId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    SortOrder = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -97,15 +94,15 @@ namespace Alpacashow.Data.Migrations
                 {
                     AnimalId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    BreedId = table.Column<int>(nullable: true),
+                    BreedId = table.Column<int>(nullable: false),
                     Chip = table.Column<string>(nullable: false),
-                    ColorId = table.Column<int>(nullable: true),
-                    Dam = table.Column<string>(nullable: true),
+                    ColorId = table.Column<int>(nullable: false),
+                    Dam = table.Column<string>(maxLength: 100, nullable: false),
                     Dob = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
-                    OwnerId = table.Column<int>(nullable: true),
-                    SexId = table.Column<int>(nullable: true),
-                    Sire = table.Column<string>(nullable: true)
+                    OwnerId = table.Column<int>(nullable: false),
+                    SexId = table.Column<int>(nullable: false),
+                    Sire = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -115,25 +112,25 @@ namespace Alpacashow.Data.Migrations
                         column: x => x.BreedId,
                         principalTable: "Breeds",
                         principalColumn: "BreedId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Animals_Colors_ColorId",
                         column: x => x.ColorId,
                         principalTable: "Colors",
                         principalColumn: "ColorId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Animals_Participants_OwnerId",
+                        name: "FK_Animals_Owners_OwnerId",
                         column: x => x.OwnerId,
-                        principalTable: "Participants",
+                        principalTable: "Owners",
                         principalColumn: "OwnerId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Animals_Sexes_SexId",
                         column: x => x.SexId,
                         principalTable: "Sexes",
                         principalColumn: "SexId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -147,7 +144,7 @@ namespace Alpacashow.Data.Migrations
                     Judge = table.Column<string>(maxLength: 100, nullable: false),
                     Location = table.Column<string>(maxLength: 100, nullable: false),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
-                    ShowTypeId = table.Column<int>(nullable: true)
+                    ShowTypeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -157,7 +154,7 @@ namespace Alpacashow.Data.Migrations
                         column: x => x.ShowTypeId,
                         principalTable: "ShowTypes",
                         principalColumn: "ShowTypeId",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -236,7 +233,7 @@ namespace Alpacashow.Data.Migrations
                 name: "Colors");
 
             migrationBuilder.DropTable(
-                name: "Participants");
+                name: "Owners");
 
             migrationBuilder.DropTable(
                 name: "Sexes");

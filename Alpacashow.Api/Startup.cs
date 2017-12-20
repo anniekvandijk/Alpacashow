@@ -30,7 +30,8 @@ namespace Alpacashow.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AlpacashowContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                    b => b.MigrationsAssembly("Alpacashow.Data")));
 
             services.AddMvc()
                 .AddJsonOptions(options =>
