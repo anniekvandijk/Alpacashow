@@ -142,5 +142,31 @@ namespace Alpacashow.Api.Controllers
             _context.SaveChanges();
             return new NoContentResult();
         }
+
+        /// <summary>
+        /// Get all showevent animals
+        /// </summary>
+        [SwaggerResponse(200, type: typeof(Animal), description: "Ok")]
+        [SwaggerResponse(404, null, description: "Not found")]
+        [HttpGet("{showEventId}/animals", Name = "GetShowEventAnimals")]
+        public IEnumerable<Animal> GetShowEventAnimals(int showEventId)
+        {
+            return _context.Animals
+                .Where(x => x.ShowEventAnimal.Any(y => y.ShowEventId == showEventId))
+                .ToList();
+        }
+
+        /// <summary>
+        /// Get all showevent participants
+        /// </summary>
+        [SwaggerResponse(200, type: typeof(Owner), description: "Ok")]
+        [SwaggerResponse(404, null, description: "Not found")]
+        [HttpGet("{showEventId}/participants", Name = "GetShowEventParticipants")]
+        public IEnumerable<Owner> GetShowEventParticipants(int showEventId)
+        {
+            return _context.Owners
+                .Where(x => x.Animals.Any(y => y.ShowEventAnimal.Any(z => z.ShowEventId == showEventId)))
+                .ToList();
+        }
     }
 }
