@@ -102,7 +102,9 @@ namespace Alpacashow.Data.Context
 
             var owners = new[]
             {
-                new Owner {Name = "The owner", FarmName = "farmname"}
+                new Owner {Name = "The owner", FarmName = "farmname"},
+                new Owner {Name = "The oldOwner", FarmName = "farmname"},
+                new Owner {Name = "Another owner", FarmName = "farmname"}
             };
             foreach (var owner in owners)
             {
@@ -126,7 +128,56 @@ namespace Alpacashow.Data.Context
                     Chip = "12345",
                     Color = context.Colors.Local.Single(p => p.Name == "Brown"),
                     Owner = context.Owners.Local.Single(p => p.Name == "The owner"),
+                },
+                new Animal
+                {
+                    Name = "alpaca 2",
+                    Sex = context.Sexes.Local.Single(p => p.Name == "Female"),
+                    Breed = context.Breeds.Local.Single(p => p.Name == "Huacaya"),
+                    Dam = "some mother",
+                    Sire = "some father",
+                    Dob = new DateTime(2017, 06, 10),
+                    Chip = "12345",
+                    Color = context.Colors.Local.Single(p => p.Name == "Brown"),
+                    Owner = context.Owners.Local.Single(p => p.Name == "The owner"),
+                },
+                new Animal
+                {
+                    Name = "alpaca 3",
+                    Sex = context.Sexes.Local.Single(p => p.Name == "Female"),
+                    Breed = context.Breeds.Local.Single(p => p.Name == "Huacaya"),
+                    Dam = "some mother",
+                    Sire = "some father",
+                    Dob = new DateTime(2017, 06, 10),
+                    Chip = "12345",
+                    Color = context.Colors.Local.Single(p => p.Name == "Brown"),
+                    Owner = context.Owners.Local.Single(p => p.Name == "Another owner"),
+                },
+                new Animal
+                {
+                    Name = "alpaca 4",
+                    Sex = context.Sexes.Local.Single(p => p.Name == "Female"),
+                    Breed = context.Breeds.Local.Single(p => p.Name == "Huacaya"),
+                    Dam = "some mother",
+                    Sire = "some father",
+                    Dob = new DateTime(2017, 06, 10),
+                    Chip = "12345",
+                    Color = context.Colors.Local.Single(p => p.Name == "Brown"),
+                    Owner = context.Owners.Local.Single(p => p.Name == "Another owner"),
+                },
+                new Animal
+                {
+                    Name = "alpaca 5",
+                    Sex = context.Sexes.Local.Single(p => p.Name == "Female"),
+                    Breed = context.Breeds.Local.Single(p => p.Name == "Huacaya"),
+                    Dam = "some mother",
+                    Sire = "some father",
+                    Dob = new DateTime(2017, 06, 10),
+                    Chip = "12345",
+                    Color = context.Colors.Local.Single(p => p.Name == "Brown"),
+                    Owner = context.Owners.Local.Single(p => p.Name == "Another owner"),
                 }
+
             };
             foreach (var animal in animals)
             {
@@ -137,14 +188,73 @@ namespace Alpacashow.Data.Context
                 }
             }
 
+            var animalOwners = new[]
+            {
+                new AnimalOwner
+                {
+                    Animal = context.Animals.Local.Single(p => p.Name == "alpaca 1"),
+                    Owner = context.Owners.Local.Single(p => p.Name == "The owner"),
+                    StartDate = new DateTime(2017, 10, 13)
+                },
+                new AnimalOwner
+                {
+                    Animal = context.Animals.Local.Single(p => p.Name == "alpaca 2"),
+                    Owner = context.Owners.Local.Single(p => p.Name == "The owner"),
+                    StartDate = new DateTime(2017, 10, 13)
+                },
+                new AnimalOwner
+                {
+                    Animal = context.Animals.Local.Single(p => p.Name == "alpaca 1"),
+                    Owner = context.Owners.Local.Single(p => p.Name == "The oldOwner"),
+                    StartDate = new DateTime(2016, 10, 4),
+                    EndDate = new DateTime(2017, 10, 12)
+                },
+                new AnimalOwner
+                {
+                    Animal = context.Animals.Local.Single(p => p.Name == "alpaca 3"),
+                    Owner = context.Owners.Local.Single(p => p.Name == "Another owner"),
+                    StartDate = new DateTime(2017, 10, 13)
+                },
+                new AnimalOwner
+                {
+                    Animal = context.Animals.Local.Single(p => p.Name == "alpaca 4"),
+                    Owner = context.Owners.Local.Single(p => p.Name == "Another owner"),
+                    StartDate = new DateTime(2017, 10, 13)
+                },
+                new AnimalOwner
+                {
+                    Animal = context.Animals.Local.Single(p => p.Name == "alpaca 5"),
+                    Owner = context.Owners.Local.Single(p => p.Name == "Another owner"),
+                    StartDate = new DateTime(2017, 10, 13)
+                },
+            };
+            foreach (var animalOwner in animalOwners)
+            {
+                var db = context.AnimalOwners.SingleOrDefault(s =>
+                    s.AnimalId == animalOwner.AnimalId && s.OwnerId == animalOwner.OwnerId);
+                if (db == null)
+                {
+                    context.AnimalOwners.Add(animalOwner);
+                }
+            }
+
             var showEvents = new[]
             {
                 new ShowEvent
                 {
-                    Name = "ShowEvent 2",
+                    Name = "ShowEvent 1",
                     Judge = "Judge x",
                     Date = new DateTime(2017, 5, 24),
                     Location = "Assen",
+                    Archived = false,
+                    ShowType = context.ShowTypes.Local.Single(p => p.Name == "Haltershow")
+                },
+                new ShowEvent
+                {
+                    Name = "ShowEvent 2",
+                    Judge = "Judge y",
+                    Date = new DateTime(2017, 5, 24),
+                    Location = "Boekel",
                     Archived = false,
                     ShowType = context.ShowTypes.Local.Single(p => p.Name == "Haltershow")
                 }
@@ -164,8 +274,28 @@ namespace Alpacashow.Data.Context
                 new ShowEventAnimal
                 {
                     Animal = context.Animals.Local.Single(p => p.Name == "alpaca 1"),
+                    ShowEvent = context.ShowEvents.Local.Single(p => p.Name == "ShowEvent 1")
+                },
+                new ShowEventAnimal
+                {
+                    Animal = context.Animals.Local.Single(p => p.Name == "alpaca 2"),
+                    ShowEvent = context.ShowEvents.Local.Single(p => p.Name == "ShowEvent 1")
+                },
+                new ShowEventAnimal
+                {
+                    Animal = context.Animals.Local.Single(p => p.Name == "alpaca 3"),
+                    ShowEvent = context.ShowEvents.Local.Single(p => p.Name == "ShowEvent 1")
+                },
+                new ShowEventAnimal
+                {
+                    Animal = context.Animals.Local.Single(p => p.Name == "alpaca 4"),
                     ShowEvent = context.ShowEvents.Local.Single(p => p.Name == "ShowEvent 2")
-                }
+                },
+                new ShowEventAnimal
+                {
+                    Animal = context.Animals.Local.Single(p => p.Name == "alpaca 5"),
+                    ShowEvent = context.ShowEvents.Local.Single(p => p.Name == "ShowEvent 1")
+                },
             };
             foreach (var showEventAnimal in showEventAnimals)
             {

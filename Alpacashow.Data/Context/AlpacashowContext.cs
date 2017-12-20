@@ -17,12 +17,15 @@ namespace Alpacashow.Data.Context
         public DbSet<Color> Colors { get; set; }
         public DbSet<AgeClass> AgeClasses { get; set; }
         public DbSet<ShowType> ShowTypes { get; set; }
+        public DbSet<AnimalOwner> AnimalOwners { get; set; }
         public DbSet<ShowEventAnimal> ShowEventAnimals { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ShowEventAnimal>()
-                .HasKey(t => new { t.AnimalId, t.ShowEventId });
+                .HasKey(t => new { t.AnimalId, t.ShowEventId, t.OwnerId });
+            modelBuilder.Entity<AnimalOwner>()
+                .HasKey(t => new { t.AnimalId, t.OwnerId });
         }
     }
 }

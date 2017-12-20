@@ -11,9 +11,10 @@ using System;
 namespace Alpacashow.Data.Migrations
 {
     [DbContext(typeof(AlpacashowContext))]
-    partial class AlpacashowContextModelSnapshot : ModelSnapshot
+    [Migration("20171220122354_Owner2")]
+    partial class Owner2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,20 +66,15 @@ namespace Alpacashow.Data.Migrations
 
             modelBuilder.Entity("Alpacashow.Data.Models.AnimalOwner", b =>
                 {
-                    b.Property<int>("AnimalOwnerId")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<int>("AnimalId");
-
-                    b.Property<DateTime>("EndDate");
 
                     b.Property<int>("OwnerId");
 
+                    b.Property<DateTime>("EndDate");
+
                     b.Property<DateTime>("StartDate");
 
-                    b.HasKey("AnimalOwnerId");
-
-                    b.HasIndex("AnimalId");
+                    b.HasKey("AnimalId", "OwnerId");
 
                     b.HasIndex("OwnerId");
 
