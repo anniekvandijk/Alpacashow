@@ -14,6 +14,7 @@ namespace Alpacashow.Data.Models
         [ReadOnly(true)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int AnimalId { get; set; }
+        public string FarmName { get; set; }
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
@@ -31,11 +32,10 @@ namespace Alpacashow.Data.Models
         public virtual Breed Breed { get; set; }
         [Required]
         public virtual Sex Sex { get; set; }
+
         [Required]
         public virtual Color Color { get; set; }
-        [Required]
-        public virtual Owner Owner { get; set; }
-        public virtual ICollection<ShowEventAnimal> ShowEventAnimal { get; set; }
 
+        public virtual ShowEvent ShowEvent { get; set; }
     }
 }

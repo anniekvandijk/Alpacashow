@@ -38,13 +38,15 @@ namespace Alpacashow.Data.Migrations
 
                     b.Property<DateTime>("Dob");
 
+                    b.Property<string>("FarmName");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100);
 
-                    b.Property<int>("OwnerId");
-
                     b.Property<int>("SexId");
+
+                    b.Property<int?>("ShowEventId");
 
                     b.Property<string>("Sire")
                         .IsRequired()
@@ -56,33 +58,11 @@ namespace Alpacashow.Data.Migrations
 
                     b.HasIndex("ColorId");
 
-                    b.HasIndex("OwnerId");
-
                     b.HasIndex("SexId");
 
+                    b.HasIndex("ShowEventId");
+
                     b.ToTable("Animals");
-                });
-
-            modelBuilder.Entity("Alpacashow.Data.Models.AnimalOwner", b =>
-                {
-                    b.Property<int>("AnimalOwnerId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AnimalId");
-
-                    b.Property<DateTime>("EndDate");
-
-                    b.Property<int>("OwnerId");
-
-                    b.Property<DateTime>("StartDate");
-
-                    b.HasKey("AnimalOwnerId");
-
-                    b.HasIndex("AnimalId");
-
-                    b.HasIndex("OwnerId");
-
-                    b.ToTable("AnimalOwners");
                 });
 
             modelBuilder.Entity("Alpacashow.Data.Models.Enums.AgeClass", b =>
@@ -155,23 +135,6 @@ namespace Alpacashow.Data.Migrations
                     b.ToTable("ShowTypes");
                 });
 
-            modelBuilder.Entity("Alpacashow.Data.Models.Owner", b =>
-                {
-                    b.Property<int>("OwnerId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("FarmName")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.HasKey("OwnerId");
-
-                    b.ToTable("Owners");
-                });
-
             modelBuilder.Entity("Alpacashow.Data.Models.ShowEvent", b =>
                 {
                     b.Property<int>("ShowEventId")
@@ -202,23 +165,6 @@ namespace Alpacashow.Data.Migrations
                     b.ToTable("ShowEvents");
                 });
 
-            modelBuilder.Entity("Alpacashow.Data.Models.ShowEventAnimal", b =>
-                {
-                    b.Property<int>("AnimalId");
-
-                    b.Property<int>("ShowEventId");
-
-                    b.Property<int>("OwnerId");
-
-                    b.HasKey("AnimalId", "ShowEventId", "OwnerId");
-
-                    b.HasIndex("OwnerId");
-
-                    b.HasIndex("ShowEventId");
-
-                    b.ToTable("ShowEventAnimals");
-                });
-
             modelBuilder.Entity("Alpacashow.Data.Models.Animal", b =>
                 {
                     b.HasOne("Alpacashow.Data.Models.Enums.Breed", "Breed")
@@ -231,28 +177,14 @@ namespace Alpacashow.Data.Migrations
                         .HasForeignKey("ColorId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Alpacashow.Data.Models.Owner", "Owner")
-                        .WithMany("Animals")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("Alpacashow.Data.Models.Enums.Sex", "Sex")
                         .WithMany()
                         .HasForeignKey("SexId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
 
-            modelBuilder.Entity("Alpacashow.Data.Models.AnimalOwner", b =>
-                {
-                    b.HasOne("Alpacashow.Data.Models.Animal", "Animal")
-                        .WithMany()
-                        .HasForeignKey("AnimalId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Alpacashow.Data.Models.Owner", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("Alpacashow.Data.Models.ShowEvent", "ShowEvent")
+                        .WithMany("Animals")
+                        .HasForeignKey("ShowEventId");
                 });
 
             modelBuilder.Entity("Alpacashow.Data.Models.ShowEvent", b =>
@@ -260,24 +192,6 @@ namespace Alpacashow.Data.Migrations
                     b.HasOne("Alpacashow.Data.Models.Enums.ShowType", "ShowType")
                         .WithMany()
                         .HasForeignKey("ShowTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Alpacashow.Data.Models.ShowEventAnimal", b =>
-                {
-                    b.HasOne("Alpacashow.Data.Models.Animal", "Animal")
-                        .WithMany("ShowEventAnimal")
-                        .HasForeignKey("AnimalId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Alpacashow.Data.Models.Owner", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Alpacashow.Data.Models.ShowEvent", "ShowEvent")
-                        .WithMany("ShowEventAnimal")
-                        .HasForeignKey("ShowEventId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

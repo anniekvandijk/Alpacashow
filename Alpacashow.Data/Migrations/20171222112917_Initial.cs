@@ -49,20 +49,6 @@ namespace Alpacashow.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Owners",
-                columns: table => new
-                {
-                    OwnerId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FarmName = table.Column<string>(maxLength: 50, nullable: true),
-                    Name = table.Column<string>(maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Owners", x => x.OwnerId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Sexes",
                 columns: table => new
                 {
@@ -86,51 +72,6 @@ namespace Alpacashow.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ShowTypes", x => x.ShowTypeId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Animals",
-                columns: table => new
-                {
-                    AnimalId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    BreedId = table.Column<int>(nullable: false),
-                    Chip = table.Column<string>(nullable: false),
-                    ColorId = table.Column<int>(nullable: false),
-                    Dam = table.Column<string>(maxLength: 100, nullable: false),
-                    Dob = table.Column<DateTime>(nullable: false),
-                    Name = table.Column<string>(maxLength: 100, nullable: false),
-                    OwnerId = table.Column<int>(nullable: false),
-                    SexId = table.Column<int>(nullable: false),
-                    Sire = table.Column<string>(maxLength: 100, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Animals", x => x.AnimalId);
-                    table.ForeignKey(
-                        name: "FK_Animals_Breeds_BreedId",
-                        column: x => x.BreedId,
-                        principalTable: "Breeds",
-                        principalColumn: "BreedId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Animals_Colors_ColorId",
-                        column: x => x.ColorId,
-                        principalTable: "Colors",
-                        principalColumn: "ColorId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Animals_Owners_OwnerId",
-                        column: x => x.OwnerId,
-                        principalTable: "Owners",
-                        principalColumn: "OwnerId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Animals_Sexes_SexId",
-                        column: x => x.SexId,
-                        principalTable: "Sexes",
-                        principalColumn: "SexId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -158,27 +99,49 @@ namespace Alpacashow.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ShowEventAnimals",
+                name: "Animals",
                 columns: table => new
                 {
-                    AnimalId = table.Column<int>(nullable: false),
-                    ShowEventId = table.Column<int>(nullable: false)
+                    AnimalId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BreedId = table.Column<int>(nullable: false),
+                    Chip = table.Column<string>(nullable: false),
+                    ColorId = table.Column<int>(nullable: false),
+                    Dam = table.Column<string>(maxLength: 100, nullable: false),
+                    Dob = table.Column<DateTime>(nullable: false),
+                    FarmName = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(maxLength: 100, nullable: false),
+                    SexId = table.Column<int>(nullable: false),
+                    ShowEventId = table.Column<int>(nullable: true),
+                    Sire = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShowEventAnimals", x => new { x.AnimalId, x.ShowEventId });
+                    table.PrimaryKey("PK_Animals", x => x.AnimalId);
                     table.ForeignKey(
-                        name: "FK_ShowEventAnimals_Animals_AnimalId",
-                        column: x => x.AnimalId,
-                        principalTable: "Animals",
-                        principalColumn: "AnimalId",
+                        name: "FK_Animals_Breeds_BreedId",
+                        column: x => x.BreedId,
+                        principalTable: "Breeds",
+                        principalColumn: "BreedId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ShowEventAnimals_ShowEvents_ShowEventId",
+                        name: "FK_Animals_Colors_ColorId",
+                        column: x => x.ColorId,
+                        principalTable: "Colors",
+                        principalColumn: "ColorId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Animals_Sexes_SexId",
+                        column: x => x.SexId,
+                        principalTable: "Sexes",
+                        principalColumn: "SexId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Animals_ShowEvents_ShowEventId",
                         column: x => x.ShowEventId,
                         principalTable: "ShowEvents",
                         principalColumn: "ShowEventId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -192,18 +155,13 @@ namespace Alpacashow.Data.Migrations
                 column: "ColorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Animals_OwnerId",
-                table: "Animals",
-                column: "OwnerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Animals_SexId",
                 table: "Animals",
                 column: "SexId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShowEventAnimals_ShowEventId",
-                table: "ShowEventAnimals",
+                name: "IX_Animals_ShowEventId",
+                table: "Animals",
                 column: "ShowEventId");
 
             migrationBuilder.CreateIndex(
@@ -218,13 +176,7 @@ namespace Alpacashow.Data.Migrations
                 name: "AgeClasses");
 
             migrationBuilder.DropTable(
-                name: "ShowEventAnimals");
-
-            migrationBuilder.DropTable(
                 name: "Animals");
-
-            migrationBuilder.DropTable(
-                name: "ShowEvents");
 
             migrationBuilder.DropTable(
                 name: "Breeds");
@@ -233,10 +185,10 @@ namespace Alpacashow.Data.Migrations
                 name: "Colors");
 
             migrationBuilder.DropTable(
-                name: "Owners");
+                name: "Sexes");
 
             migrationBuilder.DropTable(
-                name: "Sexes");
+                name: "ShowEvents");
 
             migrationBuilder.DropTable(
                 name: "ShowTypes");

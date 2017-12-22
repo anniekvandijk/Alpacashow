@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Alpacashow.Api.Models;
 using Alpacashow.Data.Context;
 using Alpacashow.Data.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -52,9 +50,6 @@ namespace Alpacashow.Api.Controllers
             }
             return new ObjectResult(showEvent);
         }
-
-
-
 
         /// <summary>
         /// Add a showevent
@@ -153,43 +148,102 @@ namespace Alpacashow.Api.Controllers
         public IEnumerable<Animal> GetShowEventAnimals(int showEventId)
         {
             return _context.Animals
-                .Where(x => x.ShowEventAnimal.Any(y => y.ShowEventId == showEventId))
+                .Where(x => x.ShowEvent.ShowEventId == showEventId)
                 .ToList();
+        }
+
+        /// <summary>
+        /// Get a showevent animal
+        /// </summary>
+        [SwaggerResponse(200, type: typeof(Animal), description: "Ok")]
+        [SwaggerResponse(404, null, description: "Not found")]
+        [HttpGet("{showEventId}/{animalId}", Name = "GetAnimal")]
+        public IActionResult GetAnimal(int showEventId, int animalId)
+        {
+            var showEvent = _context.ShowEvents.FirstOrDefault(x => x.ShowEventId == showEventId);
+            var animal = _context.Animals.FirstOrDefault(x => x.AnimalId == animalId);
+            if (showEvent == null || animal == null)
+            {
+                return NotFound();
+            }
+            return new ObjectResult(animal);
         }
 
         /// <summary>
         /// Add an animal to a showevent
         /// </summary>
-        [SwaggerResponse(201, type: typeof(ShowEventAnimalView), description: "Created")]
+        [SwaggerResponse(201, type: typeof(Animal), description: "Created")]
         [SwaggerResponse(400, null, description: "Bad request")]
-        [HttpPost("{showEventId}/animals/{animalId}")]
-        public IActionResult AddShowEventAnimal(int showEventId, int animalId)
+        [HttpPost("{showEventId}/animals")]
+        public IActionResult AddShowEventAnimal(int showEventId, [FromBody] Animal animal)
         {
-            if (showEventId == 0 || animalId == 0)
+            var showEvent = _context.ShowEvents.FirstOrDefault(t => t.ShowEventId == showEventId);
+            if (showEvent == null)
+            {
+                return NotFound();
+            }
+
+            if (animal == null)
             {
                 return BadRequest();
             }
 
-            var owner = _context.AnimalOwners
-                .FirstOrDefault(u => u.AnimalId == animalId && u.EndDate == null);
-
-            var showEventAnimal = new ShowEventAnimal
-            {
-                ShowEventId = showEventId,
-                AnimalId = animalId,
-                OwnerId = owner.OwnerId
-            };
+            animal.ShowEvent.ShowEventId = showEventId;
+            _context.Animals.Add(animal);
 
             try
             {
-                _context.ShowEventAnimals.Add(showEventAnimal);
                 _context.SaveChanges();
             }
             catch (Exception e)
             {
                 return BadRequest(e);
             }
-            return new ObjectResult(showEventAnimal);
+            return new ObjectResult(animal);
+        }
+
+        /// <summary>
+        /// Update a showevent animal
+        /// </summary>
+        [SwaggerResponse(200, type: typeof(Animal), description: "Updated")]
+        [SwaggerResponse(404, null, description: "Not found")]
+        [SwaggerResponse(400, null, description: "Bad request")]
+        [HttpPut("{showEventId}/{animalId}", Name = "PutAnimal")]
+        public IActionResult PutAnimal(int showEventId, int animalId, [FromBody] Animal animal)
+        {
+            var showEvent = _context.ShowEvents.FirstOrDefault(x => x.ShowEventId == showEventId);
+            var animalToUpdate = _context.Animals.FirstOrDefault(x => x.AnimalId == animalId);
+
+            if (showEvent == null || animalToUpdate == null)
+            {
+                return NotFound();
+            }
+            if (animal == null)
+            {
+                return BadRequest();
+            }
+
+            animalToUpdate.Name = animal.Name;
+            animalToUpdate.Breed.BreedId = animal.Breed.BreedId;
+            animalToUpdate.Sex.SexId = animal.Sex.SexId;
+            animalToUpdate.Color.ColorId = animal.Color.ColorId;
+            animalToUpdate.Chip = animal.Chip;
+            animalToUpdate.Dam = animal.Dam;
+            animalToUpdate.Sire = animal.Sire;
+            animalToUpdate.Dob = animal.Dob;
+
+            _context.Animals.Update(animalToUpdate);
+
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+
+            return CreatedAtRoute("GetAnimal", animal);
         }
 
         /// <summary>
@@ -201,28 +255,15 @@ namespace Alpacashow.Api.Controllers
         [HttpDelete("{showEventId}/animals/{animalId}")]
         public IActionResult DeleteShowEventAnimal(int showEventId, int animalId)
         {
-            var showEventAnimal = _context.ShowEventAnimals.FirstOrDefault(t => t.AnimalId == animalId && t.ShowEventId == showEventId);
-            if (showEventAnimal == null)
+            var showEvent = _context.ShowEvents.FirstOrDefault(x => x.ShowEventId == showEventId);
+            var animal = _context.Animals.FirstOrDefault(x => x.AnimalId == animalId);
+            if (showEvent == null || animal == null)
             {
                 return NotFound();
             }
-
-            _context.ShowEventAnimals.Remove(showEventAnimal);
+            _context.Animals.Remove(animal);
             _context.SaveChanges();
             return new NoContentResult();
-        }
-
-        /// <summary>
-        /// Get all showevent participants
-        /// </summary>
-        [SwaggerResponse(200, type: typeof(Owner), description: "Ok")]
-        [SwaggerResponse(404, null, description: "Not found")]
-        [HttpGet("{showEventId}/participants", Name = "GetShowEventParticipants")]
-        public IEnumerable<Owner> GetShowEventParticipants(int showEventId)
-        {
-            return _context.Owners
-                .Where(x => x.Animals.Any(y => y.ShowEventAnimal.Any(z => z.ShowEventId == showEventId)))
-                .ToList();
         }
     }
 }
