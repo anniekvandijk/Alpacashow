@@ -16,6 +16,8 @@ namespace Alpacashow.Data.Context
         public DbSet<Color> Colors { get; set; }
         public DbSet<AgeClass> AgeClasses { get; set; }
         public DbSet<ShowType> ShowTypes { get; set; }
+        public DbSet<MaleProgeny> MaleProgeny { get; set; }
+        public DbSet<FemaleProgeny> FemaleProgeny { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

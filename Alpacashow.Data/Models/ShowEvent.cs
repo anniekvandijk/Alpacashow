@@ -32,6 +32,7 @@ namespace Alpacashow.Data.Models
         public bool Archived { get; set; }
         [Required]
         public virtual ShowType ShowType { get; set; }
+        public virtual ICollection<Color> Colors { get; set; }
         public virtual ICollection<Animal> Animals { get; set; }
 
     }

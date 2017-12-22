@@ -11,9 +11,10 @@ using System;
 namespace Alpacashow.Data.Migrations
 {
     [DbContext(typeof(AlpacashowContext))]
-    partial class AlpacashowContextModelSnapshot : ModelSnapshot
+    [Migration("20171222125139_Progenyclasses")]
+    partial class Progenyclasses
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -143,46 +144,6 @@ namespace Alpacashow.Data.Migrations
                     b.ToTable("ShowTypes");
                 });
 
-            modelBuilder.Entity("Alpacashow.Data.Models.FemaleProgeny", b =>
-                {
-                    b.Property<int>("FemaleProgenyId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("Animal1AnimalId");
-
-                    b.Property<int?>("Animal2AnimalId");
-
-                    b.HasKey("FemaleProgenyId");
-
-                    b.HasIndex("Animal1AnimalId");
-
-                    b.HasIndex("Animal2AnimalId");
-
-                    b.ToTable("FemaleProgeny");
-                });
-
-            modelBuilder.Entity("Alpacashow.Data.Models.MaleProgeny", b =>
-                {
-                    b.Property<int>("MaleProgenyId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("Animal1AnimalId");
-
-                    b.Property<int?>("Animal2AnimalId");
-
-                    b.Property<int?>("Animal3AnimalId");
-
-                    b.HasKey("MaleProgenyId");
-
-                    b.HasIndex("Animal1AnimalId");
-
-                    b.HasIndex("Animal2AnimalId");
-
-                    b.HasIndex("Animal3AnimalId");
-
-                    b.ToTable("MaleProgeny");
-                });
-
             modelBuilder.Entity("Alpacashow.Data.Models.ShowEvent", b =>
                 {
                     b.Property<int>("ShowEventId")
@@ -240,32 +201,6 @@ namespace Alpacashow.Data.Migrations
                     b.HasOne("Alpacashow.Data.Models.ShowEvent")
                         .WithMany("Colors")
                         .HasForeignKey("ShowEventId");
-                });
-
-            modelBuilder.Entity("Alpacashow.Data.Models.FemaleProgeny", b =>
-                {
-                    b.HasOne("Alpacashow.Data.Models.Animal", "Animal1")
-                        .WithMany()
-                        .HasForeignKey("Animal1AnimalId");
-
-                    b.HasOne("Alpacashow.Data.Models.Animal", "Animal2")
-                        .WithMany()
-                        .HasForeignKey("Animal2AnimalId");
-                });
-
-            modelBuilder.Entity("Alpacashow.Data.Models.MaleProgeny", b =>
-                {
-                    b.HasOne("Alpacashow.Data.Models.Animal", "Animal1")
-                        .WithMany()
-                        .HasForeignKey("Animal1AnimalId");
-
-                    b.HasOne("Alpacashow.Data.Models.Animal", "Animal2")
-                        .WithMany()
-                        .HasForeignKey("Animal2AnimalId");
-
-                    b.HasOne("Alpacashow.Data.Models.Animal", "Animal3")
-                        .WithMany()
-                        .HasForeignKey("Animal3AnimalId");
                 });
 
             modelBuilder.Entity("Alpacashow.Data.Models.ShowEvent", b =>
