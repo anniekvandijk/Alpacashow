@@ -29,13 +29,11 @@ namespace Alpacashow.Data.Models
         [Required]
         public DateTime Dob { get; set; }
         public DateTime SheerDate { get; set; }
-        public DateTime BeforeSheerDate { get; set; }
         [Required]
         public virtual Breed Breed { get; set; }
         [Required]
         public virtual Sex Sex { get; set; }
         [Required]
         public virtual Color Color { get; set; }
-        public virtual ShowEvent ShowEvent { get; set; }
     }
 }

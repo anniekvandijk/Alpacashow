@@ -15,5 +15,6 @@ namespace Alpacashow.Data.Models
         public int FemaleProgenyId { get; set; }
         public virtual Animal Animal1 { get; set; }
         public virtual Animal Animal2 { get; set; }
+        public virtual HaltershowEvent HaltershowEvent { get; set; }
     }
 }

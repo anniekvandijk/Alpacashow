@@ -12,9 +12,10 @@ using System;
 namespace Alpacashow.Data.Migrations
 {
     [DbContext(typeof(AlpacashowContext))]
-    partial class AlpacashowContextModelSnapshot : ModelSnapshot
+    [Migration("20171222141359_SplitHalsterAndFleeceshow")]
+    partial class SplitHalsterAndFleeceshow
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

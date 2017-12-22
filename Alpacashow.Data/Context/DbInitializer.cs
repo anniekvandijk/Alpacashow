@@ -9,7 +9,7 @@ namespace Alpacashow.Data.Context
     {
         public static void Initialize(AlpacashowContext context)
         {
-            if (context.ShowEvents.Any())
+            if (context.HaltershowEvents.Any())
                 {
                     return; // DB has been seeded
                 }
@@ -34,7 +34,6 @@ namespace Alpacashow.Data.Context
             {
                 new Sex { Name = "Female" },
                 new Sex { Name = "Male" },
-                new Sex { Name = "Gelding" }
             };
             foreach (var sex in sexes)
             {
@@ -47,7 +46,7 @@ namespace Alpacashow.Data.Context
 
             var colors = new[]
             {
-                new Color { Name = "Fancy" },
+                new Color { Name = "Multi" },
                 new Color { Name = "Grey" },
                 new Color { Name = "Black" },
                 new Color { Name = "Brown" },
@@ -82,58 +81,40 @@ namespace Alpacashow.Data.Context
                 }
             }
 
-            var showTypes = new[]
-            {
-                new ShowType {Name = "Haltershow"},
-                new ShowType {Name = "Fleeceshow"},
-                new ShowType {Name = "Male progeny show"},
-                new ShowType {Name = "Female progeny show"}
-            };
-            foreach (var showType in showTypes)
-            {
-                var db = context.ShowTypes.SingleOrDefault(s => s.Name == showType.Name);
-                if (db == null)
-                {
-                    context.ShowTypes.Add(showType);
-                }
-            }
-
             // Testdata
 
-            var showEvents = new[]
+            var haltershowEvents = new[]
             {
-                new ShowEvent
+                new HaltershowEvent
                 {
                     Name = "ShowEvent 1",
                     Judge = "Judge x",
                     Date = new DateTime(2017, 5, 24),
                     Location = "Assen",
                     Archived = false,
-                    ShowType = context.ShowTypes.Local.Single(p => p.Name == "Haltershow")
                 },
-                new ShowEvent
+                new HaltershowEvent
                 {
                     Name = "ShowEvent 2",
                     Judge = "Judge y",
                     Date = new DateTime(2017, 5, 24),
                     Location = "Boekel",
                     Archived = false,
-                    ShowType = context.ShowTypes.Local.Single(p => p.Name == "Haltershow")
                 }
             };
-            foreach (var showEvent in showEvents)
+            foreach (var showEvent in haltershowEvents)
             {
-                var db = context.ShowEvents.SingleOrDefault(s =>
-                    s.Name == showEvent.Name && s.ShowType == showEvent.ShowType);
+                var db = context.HaltershowEvents.SingleOrDefault(s =>
+                    s.Name == showEvent.Name);
                 if (db == null)
                 {
-                    context.ShowEvents.Add(showEvent);
+                    context.HaltershowEvents.Add(showEvent);
                 }
             }
 
-            var animals = new[]
+            var haltershowAnimals = new[]
             {
-                new Animal
+                new HaltershowAnimal
                 {
                     Name = "alpaca 1",
                     Sex = context.Sexes.Local.Single(p => p.Name == "Female"),
@@ -144,9 +125,9 @@ namespace Alpacashow.Data.Context
                     Chip = "12345",
                     Color = context.Colors.Local.Single(p => p.Name == "Brown"),
                     FarmName = "The owner",
-                    ShowEvent = context.ShowEvents.Local.Single(x => x.Name == "ShowEvent 1")
+                    HaltershowEvent = context.HaltershowEvents.Local.Single(x => x.Name == "ShowEvent 1")
                 },
-                new Animal
+                new HaltershowAnimal
                 {
                     Name = "alpaca 2",
                     Sex = context.Sexes.Local.Single(p => p.Name == "Female"),
@@ -157,9 +138,9 @@ namespace Alpacashow.Data.Context
                     Chip = "12345",
                     Color = context.Colors.Local.Single(p => p.Name == "Brown"),
                     FarmName = "The owner",
-                    ShowEvent = context.ShowEvents.Local.Single(x => x.Name == "ShowEvent 1")
+                    HaltershowEvent = context.HaltershowEvents.Local.Single(x => x.Name == "ShowEvent 1")
                 },
-                new Animal
+                new HaltershowAnimal
                 {
                     Name = "alpaca 3",
                     Sex = context.Sexes.Local.Single(p => p.Name == "Female"),
@@ -170,9 +151,9 @@ namespace Alpacashow.Data.Context
                     Chip = "12345",
                     Color = context.Colors.Local.Single(p => p.Name == "Brown"),
                     FarmName = "Another owner",
-                    ShowEvent = context.ShowEvents.Local.Single(x => x.Name == "ShowEvent 1")
+                    HaltershowEvent = context.HaltershowEvents.Local.Single(x => x.Name == "ShowEvent 1")
                 },
-                new Animal
+                new HaltershowAnimal
                 {
                     Name = "alpaca 4",
                     Sex = context.Sexes.Local.Single(p => p.Name == "Female"),
@@ -183,9 +164,9 @@ namespace Alpacashow.Data.Context
                     Chip = "12345",
                     Color = context.Colors.Local.Single(p => p.Name == "Brown"),
                     FarmName = "Another owner",
-                    ShowEvent = context.ShowEvents.Local.Single(x => x.Name == "ShowEvent 2")
+                    HaltershowEvent = context.HaltershowEvents.Local.Single(x => x.Name == "ShowEvent 2")
                 },
-                new Animal
+                new HaltershowAnimal
                 {
                     Name = "alpaca 5",
                     Sex = context.Sexes.Local.Single(p => p.Name == "Female"),
@@ -196,16 +177,16 @@ namespace Alpacashow.Data.Context
                     Chip = "12345",
                     Color = context.Colors.Local.Single(p => p.Name == "Brown"),
                     FarmName = "Another owner",
-                    ShowEvent = context.ShowEvents.Local.Single(x => x.Name == "ShowEvent 2")
+                    HaltershowEvent = context.HaltershowEvents.Local.Single(x => x.Name == "ShowEvent 2")
                 }
 
             };
-            foreach (var animal in animals)
+            foreach (var animal in haltershowAnimals)
             {
-                var db = context.Animals.SingleOrDefault(s => s.Name == animal.Name );
+                var db = context.HaltershowAnimals.SingleOrDefault(s => s.Name == animal.Name );
                 if (db == null)
                 {
-                    context.Animals.Add(animal);
+                    context.HaltershowAnimals.Add(animal);
                 }
             }
             context.SaveChanges();

@@ -12,36 +12,36 @@ namespace Alpacashow.Api.Controllers
     [Route("[controller]")]
     [Produces("application/json")]
     [Consumes("application/json")]
-    public class ShowEventsController : Controller
+    public class HaltershowEventsController : Controller
     {
         private readonly AlpacashowContext _context;
 
-        public ShowEventsController(AlpacashowContext context)
+        public HaltershowEventsController(AlpacashowContext context)
         {
             _context = context;
         }
 
         /// <summary>
-        /// List all showevents
+        /// List all haltershows
         /// </summary>
-        [SwaggerResponse(200, type: typeof(ShowEvent), description: "Ok")]
+        [SwaggerResponse(200, type: typeof(HaltershowEvent), description: "Ok")]
         [SwaggerResponse(0, null, description: "Unexpected error")]
         [HttpGet]
-        public IEnumerable<ShowEvent> GetShowEvents()
+        public IEnumerable<HaltershowEvent> GetHalstershows()
         {
-            return _context.ShowEvents
+            return _context.HaltershowEvents
                 .ToList();
         }
 
         /// <summary>
-        /// Get a showevent
+        /// Get a haltershow
         /// </summary>
-        [SwaggerResponse(200, type: typeof(ShowEvent), description: "Ok")]
+        [SwaggerResponse(200, type: typeof(HaltershowEvent), description: "Ok")]
         [SwaggerResponse(404, null, description: "Not found")]
-        [HttpGet("{showEventId}", Name = "GetShowEvent")]
-        public IActionResult GetShowEvent(int showEventId)
+        [HttpGet("{showEventId}", Name = "GetHaltershow")]
+        public IActionResult GetHalstershow(int showEventId)
         {
-            var showEvent = _context.ShowEvents
+            var showEvent = _context.HaltershowEvents
                 .FirstOrDefault(t => t.ShowEventId == showEventId);
 
             if (showEvent == null)
@@ -52,12 +52,12 @@ namespace Alpacashow.Api.Controllers
         }
 
         /// <summary>
-        /// Add a showevent
+        /// Add a halstershow
         /// </summary>
-        [SwaggerResponse(201, type: typeof(ShowEvent), description: "Created")]
+        [SwaggerResponse(201, type: typeof(HaltershowEvent), description: "Created")]
         [SwaggerResponse(400, null, description: "Bad request")]
         [HttpPost]
-        public IActionResult Create([FromBody] ShowEvent showEvent)
+        public IActionResult AddHalstershow([FromBody] HaltershowEvent showEvent)
         {
             if (showEvent == null)
             {
@@ -66,32 +66,31 @@ namespace Alpacashow.Api.Controllers
 
             try
             {
-                _context.ShowEvents.Add(showEvent);
+                _context.HaltershowEvents.Add(showEvent);
                 _context.SaveChanges();
             }
             catch (Exception e)
             {
                 return BadRequest(e);
             }
-            return CreatedAtRoute("GetShowEvent", new { id = showEvent.ShowEventId }, showEvent);
+            return CreatedAtRoute("GetHaltershow", new { id = showEvent.ShowEventId }, showEvent);
         }
 
         /// <summary>
-        /// Update a showevent
+        /// Update a halstershow
         /// </summary>
-        [SwaggerResponse(200, type: typeof(ShowEvent), description: "Updated")]
+        [SwaggerResponse(200, type: typeof(HaltershowEvent), description: "Updated")]
         [SwaggerResponse(404, null, description: "Not found")]
         [SwaggerResponse(400, null, description: "Bad request")]
-        [HttpPut("{showEventId}", Name = "PutShowEvent")]
-        public IActionResult Put(int showEventId, [FromBody] ShowEvent showEvent)
+        [HttpPut("{showEventId}", Name = "PutHalstershow")]
+        public IActionResult PutHalstershow(int showEventId, [FromBody] HaltershowEvent showEvent)
         {
             if (showEvent == null || showEvent.ShowEventId != showEventId)
             {
                 return BadRequest();
             }
 
-            var showEventToUpdate = _context.ShowEvents
-                .Include(s => s.ShowType.ShowTypeId)
+            var showEventToUpdate = _context.HaltershowEvents
                 .FirstOrDefault(t => t.ShowEventId == showEventId);
             if (showEventToUpdate == null)
             {
@@ -103,11 +102,10 @@ namespace Alpacashow.Api.Controllers
             showEventToUpdate.Date = showEvent.Date;
             showEventToUpdate.Judge = showEvent.Judge;
             showEventToUpdate.Archived = showEvent.Archived;
-            showEventToUpdate.ShowType.ShowTypeId = showEvent.ShowType.ShowTypeId;
 
             try
             {
-                _context.ShowEvents.Update(showEventToUpdate);
+                _context.HaltershowEvents.Update(showEventToUpdate);
                 _context.SaveChanges();
             }
             catch (Exception e)
@@ -115,53 +113,52 @@ namespace Alpacashow.Api.Controllers
                 return BadRequest(e);
             }
 
-            return CreatedAtRoute("GetShowEvent", new { id = showEvent.ShowEventId }, showEvent);
+            return CreatedAtRoute("GetHalstershow", new { id = showEvent.ShowEventId }, showEvent);
         }
 
         /// <summary>
-        /// Delete a showevent
+        /// Delete a halstershow
         /// </summary>
-        [SwaggerOperation("DeleteShowEvent")]
         [SwaggerResponse(204, null, description: "No content")]
         [SwaggerResponse(404, null, description: "Not found")]
         [SwaggerResponse(400, null, description: "Bad request")]
         [HttpDelete("{showEventId}")]
-        public IActionResult Delete(int showEventId)
+        public IActionResult DeleteHalstershow(int showEventId)
         {
-            var showEvent = _context.ShowEvents.FirstOrDefault(t => t.ShowEventId == showEventId);
+            var showEvent = _context.HaltershowEvents.FirstOrDefault(t => t.ShowEventId == showEventId);
             if (showEvent == null)
             {
                 return NotFound();
             }
 
-            _context.ShowEvents.Remove(showEvent);
+            _context.HaltershowEvents.Remove(showEvent);
             _context.SaveChanges();
             return new NoContentResult();
         }
 
         /// <summary>
-        /// Get all showevent animals
+        /// Get all halstershow animals
         /// </summary>
-        [SwaggerResponse(200, type: typeof(Animal), description: "Ok")]
+        [SwaggerResponse(200, type: typeof(HaltershowAnimal), description: "Ok")]
         [SwaggerResponse(404, null, description: "Not found")]
-        [HttpGet("{showEventId}/animals", Name = "GetShowEventAnimals")]
-        public IEnumerable<Animal> GetShowEventAnimals(int showEventId)
+        [HttpGet("{showEventId}/animals", Name = "GetAnimals")]
+        public IEnumerable<Animal> GetAnimals(int showEventId)
         {
-            return _context.Animals
-                .Where(x => x.ShowEvent.ShowEventId == showEventId)
+            return _context.HaltershowAnimals
+                .Where(x => x.HaltershowEvent.ShowEventId == showEventId)
                 .ToList();
         }
 
         /// <summary>
-        /// Get a showevent animal
+        /// Get a halstershow animal
         /// </summary>
-        [SwaggerResponse(200, type: typeof(Animal), description: "Ok")]
+        [SwaggerResponse(200, type: typeof(HaltershowAnimal), description: "Ok")]
         [SwaggerResponse(404, null, description: "Not found")]
         [HttpGet("{showEventId}/{animalId}", Name = "GetAnimal")]
         public IActionResult GetAnimal(int showEventId, int animalId)
         {
-            var showEvent = _context.ShowEvents.FirstOrDefault(x => x.ShowEventId == showEventId);
-            var animal = _context.Animals.FirstOrDefault(x => x.AnimalId == animalId);
+            var showEvent = _context.HaltershowEvents.FirstOrDefault(x => x.ShowEventId == showEventId);
+            var animal = _context.HaltershowAnimals.FirstOrDefault(x => x.AnimalId == animalId);
             if (showEvent == null || animal == null)
             {
                 return NotFound();
@@ -172,12 +169,12 @@ namespace Alpacashow.Api.Controllers
         /// <summary>
         /// Add an animal to a showevent
         /// </summary>
-        [SwaggerResponse(201, type: typeof(Animal), description: "Created")]
+        [SwaggerResponse(201, type: typeof(HaltershowAnimal), description: "Created")]
         [SwaggerResponse(400, null, description: "Bad request")]
         [HttpPost("{showEventId}/animals")]
-        public IActionResult AddShowEventAnimal(int showEventId, [FromBody] Animal animal)
+        public IActionResult AddAnimal(int showEventId, [FromBody] HaltershowAnimal animal)
         {
-            var showEvent = _context.ShowEvents.FirstOrDefault(t => t.ShowEventId == showEventId);
+            var showEvent = _context.HaltershowEvents.FirstOrDefault(t => t.ShowEventId == showEventId);
             if (showEvent == null)
             {
                 return NotFound();
@@ -188,8 +185,8 @@ namespace Alpacashow.Api.Controllers
                 return BadRequest();
             }
 
-            animal.ShowEvent.ShowEventId = showEventId;
-            _context.Animals.Add(animal);
+            animal.HaltershowEvent.ShowEventId = showEventId;
+            _context.HaltershowAnimals.Add(animal);
 
             try
             {
@@ -203,16 +200,16 @@ namespace Alpacashow.Api.Controllers
         }
 
         /// <summary>
-        /// Update a showevent animal
+        /// Update a halstershow animal
         /// </summary>
-        [SwaggerResponse(200, type: typeof(Animal), description: "Updated")]
+        [SwaggerResponse(200, type: typeof(HaltershowAnimal), description: "Updated")]
         [SwaggerResponse(404, null, description: "Not found")]
         [SwaggerResponse(400, null, description: "Bad request")]
         [HttpPut("{showEventId}/{animalId}", Name = "PutAnimal")]
-        public IActionResult PutAnimal(int showEventId, int animalId, [FromBody] Animal animal)
+        public IActionResult PutAnimal(int showEventId, int animalId, [FromBody] HaltershowAnimal animal)
         {
-            var showEvent = _context.ShowEvents.FirstOrDefault(x => x.ShowEventId == showEventId);
-            var animalToUpdate = _context.Animals.FirstOrDefault(x => x.AnimalId == animalId);
+            var showEvent = _context.HaltershowEvents.FirstOrDefault(x => x.ShowEventId == showEventId);
+            var animalToUpdate = _context.HaltershowAnimals.FirstOrDefault(x => x.AnimalId == animalId);
 
             if (showEvent == null || animalToUpdate == null)
             {
@@ -232,7 +229,7 @@ namespace Alpacashow.Api.Controllers
             animalToUpdate.Sire = animal.Sire;
             animalToUpdate.Dob = animal.Dob;
 
-            _context.Animals.Update(animalToUpdate);
+            _context.HaltershowAnimals.Update(animalToUpdate);
 
             try
             {
@@ -247,21 +244,21 @@ namespace Alpacashow.Api.Controllers
         }
 
         /// <summary>
-        /// Delete an animal from a showevent
+        /// Delete a halstershowAnimal
         /// </summary>
         [SwaggerResponse(204, null, description: "No content")]
         [SwaggerResponse(404, null, description: "Not found")]
         [SwaggerResponse(400, null, description: "Bad request")]
         [HttpDelete("{showEventId}/animals/{animalId}")]
-        public IActionResult DeleteShowEventAnimal(int showEventId, int animalId)
+        public IActionResult DeleteAnimal(int showEventId, int animalId)
         {
-            var showEvent = _context.ShowEvents.FirstOrDefault(x => x.ShowEventId == showEventId);
-            var animal = _context.Animals.FirstOrDefault(x => x.AnimalId == animalId);
+            var showEvent = _context.HaltershowEvents.FirstOrDefault(x => x.ShowEventId == showEventId);
+            var animal = _context.HaltershowAnimals.FirstOrDefault(x => x.AnimalId == animalId);
             if (showEvent == null || animal == null)
             {
                 return NotFound();
             }
-            _context.Animals.Remove(animal);
+            _context.HaltershowAnimals.Remove(animal);
             _context.SaveChanges();
             return new NoContentResult();
         }

@@ -7,16 +7,11 @@ using System.Text;
 
 namespace Alpacashow.Data.Models
 {
-    public class MaleProgeny
+    public class FleeceshowOrder
     {
         [Key]
         [ReadOnly(true)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int MaleProgenyId { get; set; }
-        public virtual Animal Animal1 { get; set; }
-        public virtual Animal Animal2 { get; set; }
-        public virtual Animal Animal3 { get; set; }
-        public virtual HaltershowEvent HaltershowEvent { get; set; }
-
+        public int FleeceshowOrderId { get; set; }
     }
 }
