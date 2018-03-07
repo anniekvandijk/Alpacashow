@@ -30,7 +30,7 @@ namespace Alpacashow.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<AlpacashowContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly("Alpacashow.Data")));
 
             services.AddMvc()
